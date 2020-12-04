@@ -10,7 +10,7 @@ Cоздание игры Game of Go
 * PyQt5 c модулями из "requirements.txt"
 
 #### Команда для запуска игры:
-* python game.py
+* python start.py
 
 #### Управление:
 * левая кнопка мыши
