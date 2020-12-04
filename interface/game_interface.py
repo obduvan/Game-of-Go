@@ -11,14 +11,11 @@ class GameInterface(Style):
         super(GameInterface, self).__init__()
         self.setFixedSize(850, 700)
 
-
         self.dict_norm_coord_label = {}
         self.labels()
         self.draw_score_text()
         self.draw_board()
         self.draw_gamers()
-
-
 
     def draw_gamers(self):
         self.label_gamer_b = QLabel("black", self)
@@ -56,7 +53,7 @@ class GameInterface(Style):
         self.score_label_b.setStyleSheet(self.stylesheet_score)
         self.score_label_b.move(50, 140)
 
-    def set_chip_b(self, point, norm_coord):
+    def draw_stone_b(self, point, norm_coord):
         """Отрисовка черных фишек"""
 
         chip = QLabel(self)
@@ -66,8 +63,7 @@ class GameInterface(Style):
         chip.show()
         self.dict_norm_coord_label.update({norm_coord: chip})
 
-
-    def set_chip_w(self, point, norm_coord):
+    def draw_stone_w(self, point, norm_coord):
         """Отрисовка белых фишек"""
 
         chip = QLabel(self)
@@ -80,13 +76,12 @@ class GameInterface(Style):
     def del_chip(self, norm_coord):
         self.dict_norm_coord_label[norm_coord].hide()
 
-
     def redrawing_score(self, label, score):
         """Отрисовка изменения счета"""
 
         label.setText("{} {}".format(label, score))
 
-    def set_who_run(self, num):
+    def draw_who_run(self, num):
         if num % 2 == 0:
             self.label_gamer_b.setStyleSheet(self.stylesheet_gamers_run)
             self.label_gamer_w.setStyleSheet(self.stylesheet_gamers)

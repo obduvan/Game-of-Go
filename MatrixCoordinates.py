@@ -2,6 +2,7 @@ class MatrixCoordinates:
     def __init__(self):
         self._matrix_cord_trans = []
         self._normalize_coord = {}
+
         self._set_matrix_board()
         self._set_normalize_coord()
 
