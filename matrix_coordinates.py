@@ -50,4 +50,4 @@ class MatrixCoordinates:
         for i in self._normalize_coord:
             if coord_norm == self._normalize_coord[i]:
                 return i
-        return 10**6, -(10**6)
+        return 10 ** 6, -(10 ** 6)
