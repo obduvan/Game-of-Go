@@ -48,9 +48,11 @@ class ResponseInterface(GameInterface):
                 self.draw_new_stone(transformed_coord, normalized_coord)
                 self.move_number += 1
                 self.set_who_run()
+
                 print("ХОД ВАЛИДНЫЙ")
             else:
                 print("ХОД НЕ ВАЛИДНЫЙ")
+
             self.game.print_log_game()
             print("-" * 30)
 

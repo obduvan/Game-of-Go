@@ -84,6 +84,15 @@ class GameInterface(Style):
         chip.show()
         self.dict_norm_coord_label.update({norm_coord: chip})
 
+    def draw_forbidden_move(self):
+        self.forbidden_move_label = QLabel("forbidden move", self)
+        self.forbidden_move_label.setStyleSheet(self.stylesheet_forb_move)
+        self.forbidden_move_label.move(340, 640)
+        self.forbidden_move_label.show()
+
+    def close_for_move(self):
+        self.forbidden_move_label.hide()
+
     def del_chip(self, norm_coord):
         self.dict_norm_coord_label[norm_coord].hide()
 

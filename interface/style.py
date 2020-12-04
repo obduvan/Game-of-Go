@@ -47,6 +47,16 @@ class Style(QWidget):
             }
             """
 
+        self.stylesheet_forb_move = """
+            QLabel
+            {
+                font: Lucida Console;
+                color: #FFB433;
+                font-size: 24px;
+                font-weight: bold;       
+            }
+            """
+
         self.stylesheet_score = """
             QLabel
             {
