@@ -14,14 +14,11 @@ class ResponseInterface(GameInterface):
         self.move_color = PlayerColor.BLACK
         self.game = Game()
 
-        self.set_who_run(self.move_number)
+        self.draw_who_run(self.move_number)
         self.matrix_coordinates = MatrixCoordinates()
 
     def mouseMoveEvent(self, event):
         pass
-
-    def is_white(self, move_number):
-        return move_number % 2 == 0
 
     def get_player_color(self):
         if self.move_number % 2 == 0:
@@ -31,54 +28,53 @@ class ResponseInterface(GameInterface):
 
     def mousePressEvent(self, event):
         color = self.get_player_color()
-        if self.game.validate_set_stones(event.x(), event.y(), color):
+        if self.game.validate_set_stones(event.x(), event.y()):
             x_mouse, y_mouse = event.x(), event.y()
             transformed_coord = self.matrix_coordinates.transformed_coord_mouse(x_mouse, y_mouse)
-            norm_coord = self.matrix_coordinates.get_normalize_coord(transformed_coord)
+            normalized_coord = self.matrix_coordinates.get_normalize_coord(transformed_coord)
+            print(normalized_coord, " <-- ход")
+            if self.move_is_valid(transformed_coord, normalized_coord, color):
+                self.what_to_do()
 
-            if self.stone_work(transformed_coord, norm_coord):
+                self.draw_new_stone(transformed_coord, normalized_coord)
                 self.move_number += 1
-                self.draw_who_run()
+                self.set_who_run()
                 print("ХОД ВАЛИДНЫЙ")
             else:
                 print("ХОД НЕ ВАЛИДНЫЙ")
+            self.game.print_dict()
             print("-" * 30)
 
-    def stone_work(self, transformed_coord, norm_coord):
-        self.set_new_stone(transformed_coord)
-        self.game.check_free_dame()
-        self.game.update_groups(self.move_color)
-        removed_group, VALID_MOVE = self.game.remove_dead_stones(self.move_color)
+    def move_is_valid(self, transformed_coord, normalized_coord, color):
+        return self.game.move_is_valid(transformed_coord, normalized_coord, color)
 
-        if VALID_MOVE:
-            self.draw_chip(transformed_coord, norm_coord)
-            self.hide_stones(removed_group)
-            return True
+    def what_to_do(self):
+        self.game.set_new_move()
+        removed_black, removed_white = self.game.get_removed_groups()
+        if self.get_player_color() == PlayerColor.BLACK:
+            if len(removed_white) != 0:
+                self.game.delete_stones_in_dict(removed_white)
+                self.hide_stones(removed_white)
         else:
-            return False
+            if len(removed_black) != 0:
+                self.game.delete_stones_in_dict(removed_black)
+                self.hide_stones(removed_black)
 
-    def set_new_stone(self, transformed_coord):
-        normalize_coord = self.matrix_coordinates.get_normalize_coord(transformed_coord)
-        print(normalize_coord, "координаты точки")
-        self.game.set_new_stone(self.move_color, normalize_coord)
-
-    def draw_chip(self, transformed_coord, norm_coord):
-        if self.is_white(self.move_number):
-            self.set_chip_b(transformed_coord, norm_coord)
+    def draw_new_stone(self, transformed_coord, normalized_coord):
+        if self.get_player_color() == PlayerColor.BLACK:
+            self.draw_stone_b(transformed_coord, normalized_coord)
             self.move_color = PlayerColor.WHITE
         else:
-            self.set_chip_w(transformed_coord, norm_coord)
+            self.draw_stone_w(transformed_coord, normalized_coord)
             self.move_color = PlayerColor.BLACK
 
-    def draw_who_run(self):
-        print(self.move_number)
-        self.set_who_run(self.move_number)
+    def set_who_run(self):
+        self.draw_who_run(self.move_number)
 
     def hide_stones(self, remove_group):
         for group in remove_group:
             for norm_coord in group:
                 self.del_chip(norm_coord)
-
 
 
 if __name__ == "__main__":
