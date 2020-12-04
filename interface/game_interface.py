@@ -58,6 +58,7 @@ class GameInterface(Style):
 
     def draw_pass_command(self):
         """Отрисовка команды pass"""
+
         self.pass_black = QPushButton("Pass", self)
         self.pass_black.setStyleSheet(self.stylesheet_button)
         self.pass_black.clicked.connect(self.get_pass_black)

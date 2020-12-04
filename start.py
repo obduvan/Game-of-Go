@@ -3,7 +3,7 @@ from engine.signals import Signals
 
 from PyQt5.QtWidgets import *
 import sys
-from matrix_coordinates import MatrixCoordinates
+from coordinates_generator.matrix_coordinates import MatrixCoordinates
 from interface.end_game_interface import EndGameInterFace
 from engine.game import Game
 from interface.game_interface import GameInterface
@@ -39,12 +39,8 @@ class ResponseInterface(GameInterface):
         color = self.get_player_color()
         if self.game.validate_set_stones(event.x(), event.y()):
             x_mouse, y_mouse = event.x(), event.y()
-            transformed_coord = self.matrix_coordinates.transformed_coord_mouse(
-                x_mouse, y_mouse
-            )
-            normalized_coord = self.matrix_coordinates.get_normalize_coord(
-                transformed_coord
-            )
+            transformed_coord = self.matrix_coordinates.transformed_coord_mouse(x_mouse, y_mouse)
+            normalized_coord = self.matrix_coordinates.get_normalize_coord(transformed_coord)
             print(normalized_coord, " <-- ход")
             if self.move_is_valid(transformed_coord, normalized_coord, color):
                 self.what_to_do()
@@ -55,7 +51,7 @@ class ResponseInterface(GameInterface):
                 print("ХОД ВАЛИДНЫЙ")
             else:
                 print("ХОД НЕ ВАЛИДНЫЙ")
-            self.game.print_dict()
+            self.game.print_log_game()
             print("-" * 30)
 
     def move_is_valid(self, transformed_coord, normalized_coord, color):

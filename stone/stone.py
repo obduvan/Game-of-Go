@@ -1,4 +1,4 @@
-from matrix_coordinates import MatrixCoordinates
+from coordinates_generator.matrix_coordinates import MatrixCoordinates
 from validate.validate import Validate
 
 

@@ -3,15 +3,7 @@ from stone.stone import Stone
 
 
 class CurrentStepGame:
-    def __init__(
-        self,
-        transformed_coord,
-        normalize_coord,
-        normalize_coord_stones_dict,
-        black_groups,
-        white_groups,
-        color,
-    ):
+    def __init__(self, transformed_coord, normalize_coord, normalize_coord_stones_dict, black_groups, white_groups, color):
         self.transformed_coord = transformed_coord
         self.normalize_coord = normalize_coord
 
@@ -34,12 +26,7 @@ class CurrentStepGame:
         self.update_other_dames()
 
     def _init_stone(self):
-        self.stone = Stone(
-            self.normalize_coord[0],
-            self.normalize_coord[1],
-            self.color_stone,
-            self.normalize_coord_stones_dict,
-        )
+        self.stone = Stone(self.normalize_coord[0], self.normalize_coord[1], self.color_stone, self.normalize_coord_stones_dict)
         self.stone.update_list_dames()
         self.stone.check_neighbor_stone_and_coordinates()
 
@@ -54,15 +41,10 @@ class CurrentStepGame:
             self.new_white_groups = self.update_group_color(self.white_groups)
             self.new_black_groups = self.black_groups
 
-        print(self.new_black_groups, " black new")
-        print(self.new_white_groups, " white new")
-
     def update_other_dames(self):
         for norm_coord in self.normalize_coord_stones_dict:
             self.normalize_coord_stones_dict[norm_coord].update_list_dames()
-            self.normalize_coord_stones_dict[
-                norm_coord
-            ].check_neighbor_stone_and_coordinates()
+            self.normalize_coord_stones_dict[norm_coord].check_neighbor_stone_and_coordinates()
 
     def update_group_color(self, color_all_groups):
         new_group = []
