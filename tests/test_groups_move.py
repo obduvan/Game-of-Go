@@ -26,12 +26,8 @@ class TestGroupsMove(unittest.TestCase):
         self.other_obj = GroupsMove(other_black_groups, other_white_groups)
         self.assertEqual(self.default_obj.is_same_move_groups(self.other_obj), False)
 
-    def test_different_oneof(self):
+    def test_different_one_of(self):
         other_black_groups = [[11, 2], [1, 4], [1343, 1]]
         other_white_groups = [[2, 2], [3, 4], [1343, 1]]
         self.other_obj = GroupsMove(other_black_groups, other_white_groups)
         self.assertEqual(self.default_obj.is_same_move_groups(self.other_obj), False)
-
-
-if __name__ == '__main__':
-    unittest.main()
