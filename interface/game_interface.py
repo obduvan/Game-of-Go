@@ -15,9 +15,12 @@ class GameInterface(Style):
 
         self.dict_norm_coord_label = {}
         self.labels()
-        self.draw_score_text()
+        self.draw_color_players()
         self.draw_board()
         self.draw_pass_command()
+        self.draw_points_black()
+        self.draw_points_white()
+
 
     def labels(self):
         """Отрисовка названия"""
@@ -36,12 +39,12 @@ class GameInterface(Style):
         self.label_board.move(220, 220)
         self.label_board.show()
 
-    def draw_score_text(self):
+    def draw_color_players(self):
         """Отрисовка количества очков игроков"""
 
         self.score_label_w = QLabel("White", self)
         self.score_label_w.setStyleSheet(self.stylesheet_score)
-        self.score_label_w.move(710, 240)
+        self.score_label_w.move(700, 240)
         self.score_label_b = QLabel("Black", self)
         self.score_label_b.setStyleSheet(self.stylesheet_score)
         self.score_label_b.move(70, 240)
@@ -85,10 +88,32 @@ class GameInterface(Style):
         self.dict_norm_coord_label.update({norm_coord: chip})
 
     def draw_forbidden_move(self):
+        """Отрисовка не валидного хода"""
         self.forbidden_move_label = QLabel("forbidden move", self)
         self.forbidden_move_label.setStyleSheet(self.stylesheet_forb_move)
         self.forbidden_move_label.move(340, 640)
         self.forbidden_move_label.show()
+
+    def draw_points_black(self):
+        self.label_points_black = QLabel("0", self)
+        self.label_points_black.setStyleSheet(self.stylesheet_score)
+        self.label_points_black.move(90, 290)
+        self.label_points_black.setFixedSize(40, 30)
+        self.label_points_black.show()
+
+    def draw_points_white(self):
+        self.label_points_white = QLabel("0", self)
+        self.label_points_white.setStyleSheet(self.stylesheet_score)
+        self.label_points_white.move(720, 290)
+        self.label_points_white.setFixedSize(40, 30)
+        self.label_points_white.show()
+
+    def redraw_points_black(self, points):
+        self.label_points_black.setText(str(points))
+
+    def redraw_points_white(self, points):
+        self.label_points_white.setText(str(points))
+
 
     def close_for_move(self):
         self.forbidden_move_label.hide()

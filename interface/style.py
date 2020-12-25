@@ -72,10 +72,19 @@ class Style(QWidget):
                    {
                        font: Lucida Console;
                        color: #282428;
-                       font-size: 70px;
+                       font-size: 49px;
                        font-weight: bold;
                    }
                    """
+        self.stylesheet_score_end = """
+                          QLabel
+                          {
+                              font: Lucida Console;
+                              color: #282428;
+                              font-size: 30px;
+                              font-weight: bold;
+                          }
+                          """
 
         self.stylesheet_button = """
             QPushButton

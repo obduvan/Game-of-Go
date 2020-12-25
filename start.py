@@ -1,4 +1,5 @@
 from constants.constants_name import ConstantsName
+from engine.count_points import CountPoints
 from engine.signals import Signals
 
 from PyQt5.QtWidgets import *
@@ -14,9 +15,12 @@ class ResponseInterface(GameInterface):
     def __init__(self):
         super(ResponseInterface, self).__init__()
         self.move_number = 0
+        self.black_points = 0
+        self.white_points = 0
         self.move_color = PlayerColor.BLACK
         self.game = Game()
         self.signal = Signals()
+        self.count_points = CountPoints()
 
         self.draw_who_run(self.move_number)
         self.matrix_coordinates = MatrixCoordinates()
@@ -43,6 +47,7 @@ class ResponseInterface(GameInterface):
             normalized_coord = self.matrix_coordinates.get_normalize_coord(transformed_coord)
             print(normalized_coord, " <-- ход")
             if self.move_is_valid(transformed_coord, normalized_coord, color):
+                self.draw_points()
                 self.what_to_do()
 
                 self.draw_new_stone(transformed_coord, normalized_coord)
@@ -50,11 +55,19 @@ class ResponseInterface(GameInterface):
                 self.set_who_run()
 
                 print("ХОД ВАЛИДНЫЙ")
+
             else:
                 print("ХОД НЕ ВАЛИДНЫЙ")
 
             self.game.print_log_game()
             print("-" * 30)
+
+    def draw_points(self):
+        black_groups, white_groups = self.game.get_black_white_groups()
+        self.black_points = self.count_points.count_points_black(black_groups)
+        self.white_points = self.count_points.count_points_white(white_groups)
+        self.redraw_points_black(self.black_points)
+        self.redraw_points_white(self.white_points)
 
     def move_is_valid(self, transformed_coord, normalized_coord, color):
         return self.game.move_is_valid(transformed_coord, normalized_coord, color)
@@ -115,9 +128,11 @@ class ResponseInterface(GameInterface):
             print("конец")
             self.draw_menu()
 
+    # def action_random_bot
+
     def draw_menu(self):
         self.close()
-        new_win = EndGameInterFace(self, self.signal)
+        new_win = EndGameInterFace(self, self.signal, self.black_points, self.white_points)
         new_win.show()
 
     def close_game(self):

@@ -61,6 +61,9 @@ class Game:
         print(self.black_groups, " <--- black groups")
         print(self.white_groups, " <--- white_groups")
 
+    def get_black_white_groups(self):
+        return self.black_groups, self.white_groups
+
     def get_removed_groups(self):
         return self.validate_game_rule.removed_black_group, self.validate_game_rule.removed_white_group
 
