@@ -15,7 +15,7 @@ class RandomBot(ResponseInterface):
 
     def action(self):
         index_transform_coord = self.get_random_ind()
-        transform_coord_bot = self.transform_coords[index_transform_coord]
+        transform_coord_bot = random.choice(self.transform_coords)
         normalize_coord_bot = self.matrix_coordinates_2.get_normalize_coord(transform_coord_bot)
         if not self.is_valid_gambit(transform_coord_bot, normalize_coord_bot, "White"):
             self.action()

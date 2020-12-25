@@ -60,7 +60,7 @@ class ResponseInterface(GameInterface):
         print("ХОД ВАЛИДНЫЙ")
 
     def is_valid_gambit(self, transformed_coord, normalized_coord, color):
-        if self.game.validate_set_stones(normalized_coord[0], normalized_coord[0]):
+        if self.game.validate_set_stones(normalized_coord[0], normalized_coord[1]):
             print(normalized_coord, " <-- ход")
             if self.move_is_valid(transformed_coord, normalized_coord, color):
                 return True

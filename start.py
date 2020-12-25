@@ -43,19 +43,18 @@ class StartInterface(Style):
         self.button_2.setFixedSize(500, 50)
 
     def start_with_man(self):
-        self.close()
         self.window = ResponseInterface()
-        self.window.show()
+        self.start_game()
 
     def start_easy_bot(self):
+        self.window = RandomBot()
         self.start_game()
 
     def start_clever_bot(self):
-        self.start_game()
+        pass
 
     def start_game(self):
         self.close()
-        self.window = RandomBot()
         self.window.show()
 
 
