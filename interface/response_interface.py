@@ -38,14 +38,18 @@ class ResponseInterface(GameInterface):
         else:
             return PlayerColor.WHITE
 
+    def validate_mouse(self, x, y):
+        return self.game.validate.validate_gamer_zone(x, y)
+
     def mousePressEvent(self, event):
-        color = self.get_player_color()
-        x_trans, y_trans = self.matrix_coordinates.transformed_coord_mouse(event.x(), event.y())
-        x_norm, y_norm = self.matrix_coordinates.get_normalize_coord((x_trans, y_trans))
-        transformed_coord = (x_trans, y_trans)
-        normalized_coord = (x_norm, y_norm)
-        if self.is_valid_gambit(transformed_coord, normalized_coord, color):
-            self.set_new_stone(transformed_coord, normalized_coord)
+        if self.validate_mouse(event.x(), event.y()):
+            x_trans, y_trans = self.matrix_coordinates.transformed_coord_mouse(event.x(), event.y())
+            x_norm, y_norm = self.matrix_coordinates.get_normalize_coord((x_trans, y_trans))
+            transformed_coord = (x_trans, y_trans)
+            normalized_coord = (x_norm, y_norm)
+            color = self.get_player_color()
+            if self.is_valid_gambit(transformed_coord, normalized_coord, color):
+                self.set_new_stone(transformed_coord, normalized_coord)
 
     def set_new_stone(self, transformed_coord, normalized_coord):
         self.normalize_coord_stones_dict = self.game.get_normalize_coord_stones_dict()
