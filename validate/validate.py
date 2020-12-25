@@ -1,4 +1,4 @@
-from MatrixCoordinates import MatrixCoordinates
+from coordinates_generator.matrix_coordinates import MatrixCoordinates
 
 
 class Validate:
@@ -23,9 +23,12 @@ class Validate:
 
     def validate_set_stones(self, x_mouse, y_mouse, normalize_coord_stones_dict):
         if self.validate_gamer_zone(x_mouse, y_mouse):
-            x_trans, y_trans = self.matrix_coordinates.transformed_coord_mouse(x_mouse, y_mouse)
-            x_norm, y_norm = self.matrix_coordinates.get_normalize_coord((x_trans, y_trans))
+            x_trans, y_trans = self.matrix_coordinates.transformed_coord_mouse(
+                x_mouse, y_mouse
+            )
+            x_norm, y_norm = self.matrix_coordinates.get_normalize_coord(
+                (x_trans, y_trans)
+            )
             return self.validate_free_place(normalize_coord_stones_dict, x_norm, y_norm)
 
         return False
-

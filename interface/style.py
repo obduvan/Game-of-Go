@@ -20,7 +20,7 @@ class Style(QWidget):
             {   
                 font: Lucida Console;
                 color: #FFB433;
-                font-size: 25px;
+                font-size: 22px;
                 font-weight: bold;              
             }
         """
@@ -29,8 +29,8 @@ class Style(QWidget):
             QLabel
             {   
                 font: Lucida Console;
-                color: #F7EDDC;
-                font-size: 25px;
+                color: #FFFFF;
+                font-size: 22px;
                 font-weight: bold;
                 
             }
@@ -47,12 +47,56 @@ class Style(QWidget):
             }
             """
 
+        self.stylesheet_forb_move = """
+            QLabel
+            {
+                font: Lucida Console;
+                color: #FFB433;
+                font-size: 24px;
+                font-weight: bold;       
+            }
+            """
+
         self.stylesheet_score = """
             QLabel
             {
                 font: Lucida Console;
                 color: #392A30;
-                font-size: 20px;
+                font-size: 24px;
                 font-weight: bold;       
             }
+            """
+
+        self.stylesheet_game_end = """
+                   QLabel
+                   {
+                       font: Lucida Console;
+                       color: #282428;
+                       font-size: 49px;
+                       font-weight: bold;
+                   }
+                   """
+        self.stylesheet_score_end = """
+                          QLabel
+                          {
+                              font: Lucida Console;
+                              color: #282428;
+                              font-size: 30px;
+                              font-weight: bold;
+                          }
+                          """
+
+        self.stylesheet_button = """
+            QPushButton
+            {
+                font: Gill Sans;
+                color: #191616;
+                font-size: 20px;             
+                font-weight: bold;
+                border-radius: 7px;          
+            }
+
+            QPushButton:hover { background-color: #9D92A1 }
+            QPushButton:!hover { background-color: #786E7D   }
+            QPushButton:pressed { background-color: #C6C5C6 }
             """

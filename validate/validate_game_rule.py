@@ -1,10 +1,12 @@
-import copy
+
 
 from player_color import PlayerColor
 
 
 class ValidateGameRule:
-    def __init__(self, normalize_coord_stones_dict, new_black_groups, new_white_groups, color):
+    def __init__(
+        self, normalize_coord_stones_dict, new_black_groups, new_white_groups, color
+    ):
         self.color_stone = color
         self.normalize_coord_stones_dict = normalize_coord_stones_dict
         self.stone = None

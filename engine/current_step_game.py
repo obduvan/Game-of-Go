@@ -25,7 +25,6 @@ class CurrentStepGame:
         self._update_groups()
         self.update_other_dames()
 
-
     def _init_stone(self):
         self.stone = Stone(self.normalize_coord[0], self.normalize_coord[1], self.color_stone, self.normalize_coord_stones_dict)
         self.stone.update_list_dames()
@@ -41,9 +40,6 @@ class CurrentStepGame:
         else:
             self.new_white_groups = self.update_group_color(self.white_groups)
             self.new_black_groups = self.black_groups
-
-        print(self.new_black_groups, " black new")
-        print(self.new_white_groups, " white new")
 
     def update_other_dames(self):
         for norm_coord in self.normalize_coord_stones_dict:
