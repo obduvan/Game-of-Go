@@ -4,7 +4,9 @@ from PyQt5.QtWidgets import QWidget
 class Style(QWidget):
     def __init__(self):
         super(Style, self).__init__()
+        self.setWindowTitle("Game of Go")
         self.styles()
+
         self.draw_background()
 
     def draw_background(self):
@@ -19,7 +21,7 @@ class Style(QWidget):
             QLabel
             {   
                 font: Lucida Console;
-                color: #FFB433;
+                color: #F2E699;
                 font-size: 22px;
                 font-weight: bold;              
             }

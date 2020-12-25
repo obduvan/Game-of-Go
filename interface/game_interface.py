@@ -27,7 +27,7 @@ class GameInterface(Style):
 
         self.name_game = QLabel("Game of Go", self)
         self.name_game.setStyleSheet(self.stylesheet)
-        self.name_game.move(285, 90)
+        self.name_game.move(305, 90)
         self.name_game.resize(500, 60)
 
     def draw_board(self):
@@ -89,6 +89,7 @@ class GameInterface(Style):
 
     def draw_forbidden_move(self):
         """Отрисовка не валидного хода"""
+
         self.forbidden_move_label = QLabel("forbidden move", self)
         self.forbidden_move_label.setStyleSheet(self.stylesheet_forb_move)
         self.forbidden_move_label.move(340, 640)

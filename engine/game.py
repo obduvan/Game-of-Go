@@ -64,8 +64,11 @@ class Game:
     def get_black_white_groups(self):
         return self.black_groups, self.white_groups
 
+    def get_normalize_coord_stones_dict(self):
+        return self.normalize_coord_stones_dict
+
     def get_removed_groups(self):
         return self.validate_game_rule.removed_black_group, self.validate_game_rule.removed_white_group
 
-    def validate_set_stones(self, x_mouse, y_mouse):
-        return self.validate.validate_set_stones(x_mouse, y_mouse, self.normalize_coord_stones_dict)
+    def validate_set_stones(self, x_norm, y_norm):
+        return self.validate.validate_free_place(self.normalize_coord_stones_dict, x_norm, y_norm)

@@ -26,12 +26,6 @@ class MatrixCoordinates:
             xx = 1
             yy -= 1
 
-    def get_matrix_cord_trans(self):
-        return self._matrix_cord_trans
-
-    def get_normalize_coord(self, coord_trans):
-        return self._normalize_coord[coord_trans]
-
     def transformed_coord_mouse(self, x_mouse, y_mouse):
         transformed_coord = 0, 0
         length = 100
@@ -45,6 +39,12 @@ class MatrixCoordinates:
                 transformed_coord = point
 
         return transformed_coord
+
+    def get_matrix_cord_trans(self):
+        return self._matrix_cord_trans
+
+    def get_normalize_coord(self, coord_trans):
+        return self._normalize_coord[coord_trans]
 
     def get_transformed_coord_norm(self, coord_norm):
         for i in self._normalize_coord:
