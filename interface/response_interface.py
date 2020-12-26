@@ -14,11 +14,12 @@ from player_color import PlayerColor
 class ResponseInterface(GameInterface):
     def __init__(self):
         super(ResponseInterface, self).__init__()
+        self.col_pass_black = False
+        self.col_pass_white = False
         self.move_number = 0
         self.black_points = 0
         self.white_points = 0
         self.normalize_coord_stones_dict = {}
-        self.move_color = PlayerColor.BLACK
         self.game = Game()
 
         self.signal = Signals()
@@ -38,11 +39,8 @@ class ResponseInterface(GameInterface):
         else:
             return PlayerColor.WHITE
 
-    def validate_mouse(self, x, y):
-        return self.game.validate.validate_gamer_zone(x, y)
-
     def mousePressEvent(self, event):
-        if self.validate_mouse(event.x(), event.y()):
+        if self.game.validate.validate_gamer_zone(event.x(), event.y()):
             x_trans, y_trans = self.matrix_coordinates.transformed_coord_mouse(event.x(), event.y())
             x_norm, y_norm = self.matrix_coordinates.get_normalize_coord((x_trans, y_trans))
             transformed_coord = (x_trans, y_trans)
@@ -51,17 +49,35 @@ class ResponseInterface(GameInterface):
             if self.is_valid_gambit(transformed_coord, normalized_coord, color):
                 self.set_new_stone(transformed_coord, normalized_coord)
 
-    def set_new_stone(self, transformed_coord, normalized_coord):
-        self.normalize_coord_stones_dict = self.game.get_normalize_coord_stones_dict()
-        self.draw_points()
-        self.what_to_do()
+    def set_new_gambit(self):
+        self.game.set_new_move()
+        removed_black, removed_white = self.game.get_removed_groups()
+        if self.get_player_color() == PlayerColor.BLACK:
+            if len(removed_white) != 0:
+                self.game.delete_stones_in_dict(removed_white)
+                self.hide_stones(removed_white)
+        else:
+            if len(removed_black) != 0:
+                self.game.delete_stones_in_dict(removed_black)
+                self.hide_stones(removed_black)
 
+    def set_new_stone(self, transformed_coord, normalized_coord):
+        self.draw_points()
+        self.set_new_gambit()
         self.draw_new_stone(transformed_coord, normalized_coord)
         self.move_number += 1
-        self.set_who_run()
+        self.draw_who_run(self.move_number)
+
+        self.set_not_pass_gambit()
         self.game.print_log_game()
         print("-" * 30)
         print("ХОД ВАЛИДНЫЙ")
+
+    def set_not_pass_gambit(self):
+        if self.get_player_color() == PlayerColor.BLACK:
+            self.col_pass_black = False
+        else:
+            self.col_pass_white = False
 
     def is_valid_gambit(self, transformed_coord, normalized_coord, color):
         if self.game.validate_set_stones(normalized_coord[0], normalized_coord[1]):
@@ -82,34 +98,13 @@ class ResponseInterface(GameInterface):
     def move_is_valid(self, transformed_coord, normalized_coord, color):
         return self.game.move_is_valid(transformed_coord, normalized_coord, color)
 
-    def what_to_do(self):
-        self.game.set_new_move()
-        removed_black, removed_white = self.game.get_removed_groups()
-        if self.get_player_color() == PlayerColor.BLACK:
-            if len(removed_white) != 0:
-                self.game.delete_stones_in_dict(removed_white)
-                self.hide_stones(removed_white)
-        else:
-            if len(removed_black) != 0:
-                self.game.delete_stones_in_dict(removed_black)
-                self.hide_stones(removed_black)
-
     def draw_new_stone(self, transformed_coord, normalized_coord):
         if self.get_player_color() == PlayerColor.BLACK:
             self.draw_stone_b(transformed_coord, normalized_coord)
-            self.move_color = PlayerColor.WHITE
-            self.col_pass_black = 0
-            self.pass_white.setEnabled(True)
-            self.pass_black.setEnabled(False)
+            self.enabled_buttons(False, True)
         else:
             self.draw_stone_w(transformed_coord, normalized_coord)
-            self.move_color = PlayerColor.BLACK
-            self.col_pass_white = 0
-            self.pass_white.setEnabled(False)
-            self.pass_black.setEnabled(True)
-
-    def set_who_run(self):
-        self.draw_who_run(self.move_number)
+            self.enabled_buttons(True, False)
 
     def hide_stones(self, remove_group):
         for group in remove_group:
@@ -118,27 +113,27 @@ class ResponseInterface(GameInterface):
 
     def get_pass_black(self):
         self.move_number += 1
-        self.set_who_run()
-        self.col_pass_black = 1
+        self.draw_who_run(self.move_number)
 
+        self.col_pass_black = True
         self.pass_black.setEnabled(False)
         self.pass_white.setEnabled(True)
-        if self.col_pass_white == 1:
+
+        if self.col_pass_white == True:
             print("конец")
             self.draw_menu()
 
     def get_pass_white(self):
         self.move_number += 1
-        self.set_who_run()
+        self.draw_who_run(self.move_number)
 
-        self.col_pass_white = 1
+        self.col_pass_white = True
         self.pass_white.setEnabled(False)
         self.pass_black.setEnabled(True)
-        if self.col_pass_black == 1:
+
+        if self.col_pass_black == True:
             print("конец")
             self.draw_menu()
-
-    # def action_random_bot
 
     def draw_menu(self):
         self.close()
@@ -157,7 +152,6 @@ class ResponseInterface(GameInterface):
         import os
         system = system()
         if system == "Windows":
-
             start = "python {}".format(ConstantsName.point_program)
         else:
             start = "python3 {}".format(ConstantsName.point_program)

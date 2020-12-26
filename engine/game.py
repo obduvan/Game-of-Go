@@ -1,4 +1,6 @@
 import copy
+
+from coordinates_generator.matrix_coordinates import MatrixCoordinates
 from engine.game_move_log import GameMoveLog
 from engine.current_step_game import CurrentStepGame
 from engine.groups_move import GroupsMove
@@ -11,6 +13,7 @@ class Game:
         self.validate = Validate()
         self.game_move_log = GameMoveLog()
 
+        self._free_points = MatrixCoordinates().get_matrix_cord_norm()
         self.normalize_coord_stones_dict = {}
 
         self.black_groups = []
@@ -47,17 +50,25 @@ class Game:
         self.game_move_log.update_game_move_log(
             GroupsMove(self.black_groups, self.white_groups))
 
+        self.update_free_points()
+
+    def update_free_points(self):
+        self._free_points = set(self._free_points).difference(set(self.normalize_coord_stones_dict.keys()))
+
+    def get_free_points(self):
+        return self._free_points
+
     def delete_stones_in_dict(self, removed_groups):
         for group in removed_groups:
             for norm_cord in group:
                 self.normalize_coord_stones_dict.pop(norm_cord)
 
     def print_log_game(self):
-        print("Все точки на карте:")
-
-        for cord in self.normalize_coord_stones_dict:
-            print(cord)
-
+        # print("Все точки на карте:")
+        #
+        # for cord in self.normalize_coord_stones_dict:
+        #     print(cord)
+        print(self._free_points)
         print(self.black_groups, " <--- black groups")
         print(self.white_groups, " <--- white_groups")
 

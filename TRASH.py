@@ -1,11 +1,4 @@
+b = [1,2,3]
+a = {"1":1, "2":2}
+print(list(set(b).difference(set(a.values()))))
 
-x, y = 275, 275
-matrix_cord_trans = []
-for i in range(9):
-    for k in range(9):
-        matrix_cord_trans.append((x, y))
-        x += 35
-    y += 35
-    x = 275
-
-print(len(matrix_cord_trans))
