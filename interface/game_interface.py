@@ -10,8 +10,7 @@ class GameInterface(Style):
     def __init__(self):
         super(GameInterface, self).__init__()
         self.setFixedSize(850, 700)
-        self.col_pass_black = 0
-        self.col_pass_white = 0
+
 
         self.dict_norm_coord_label = {}
         self.labels()
@@ -27,7 +26,7 @@ class GameInterface(Style):
 
         self.name_game = QLabel("Game of Go", self)
         self.name_game.setStyleSheet(self.stylesheet)
-        self.name_game.move(285, 90)
+        self.name_game.move(305, 90)
         self.name_game.resize(500, 60)
 
     def draw_board(self):
@@ -89,6 +88,7 @@ class GameInterface(Style):
 
     def draw_forbidden_move(self):
         """Отрисовка не валидного хода"""
+
         self.forbidden_move_label = QLabel("forbidden move", self)
         self.forbidden_move_label.setStyleSheet(self.stylesheet_forb_move)
         self.forbidden_move_label.move(340, 640)
@@ -98,14 +98,14 @@ class GameInterface(Style):
         self.label_points_black = QLabel("0", self)
         self.label_points_black.setStyleSheet(self.stylesheet_score)
         self.label_points_black.move(90, 290)
-        self.label_points_black.setFixedSize(40, 30)
+        self.label_points_black.setFixedSize(70, 50)
         self.label_points_black.show()
 
     def draw_points_white(self):
         self.label_points_white = QLabel("0", self)
         self.label_points_white.setStyleSheet(self.stylesheet_score)
         self.label_points_white.move(720, 290)
-        self.label_points_white.setFixedSize(40, 30)
+        self.label_points_white.setFixedSize(70, 50)
         self.label_points_white.show()
 
     def redraw_points_black(self, points):
@@ -113,7 +113,6 @@ class GameInterface(Style):
 
     def redraw_points_white(self, points):
         self.label_points_white.setText(str(points))
-
 
     def close_for_move(self):
         self.forbidden_move_label.hide()
@@ -133,3 +132,8 @@ class GameInterface(Style):
         else:
             self.score_label_w.setStyleSheet(self.stylesheet_gamers_run)
             self.score_label_b.setStyleSheet(self.stylesheet_gamers)
+
+    def enabled_buttons(self, black: bool, white: bool):
+        self.pass_black.setEnabled(black)
+        self.pass_white.setEnabled(white)
+

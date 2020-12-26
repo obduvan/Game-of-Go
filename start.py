@@ -1,161 +1,65 @@
-from constants.constants_name import ConstantsName
-from engine.count_points import CountPoints
-from engine.signals import Signals
+import sys
 
 from PyQt5.QtWidgets import *
-import sys
-from coordinates_generator.matrix_coordinates import MatrixCoordinates
-from interface.end_game_interface import EndGameInterFace
-from engine.game import Game
-from interface.game_interface import GameInterface
-from player_color import PlayerColor
+
+from interface.response_interface import ResponseInterface
+from interface.style import Style
+from players.random_bot import RandomBot
 
 
-class ResponseInterface(GameInterface):
+class StartInterface(Style):
     def __init__(self):
-        super(ResponseInterface, self).__init__()
-        self.move_number = 0
-        self.black_points = 0
-        self.white_points = 0
-        self.move_color = PlayerColor.BLACK
-        self.game = Game()
-        self.signal = Signals()
-        self.count_points = CountPoints()
+        super(StartInterface, self).__init__()
+        self.setFixedSize(850, 700)
+        self.buttons()
+        self.labels()
 
-        self.draw_who_run(self.move_number)
-        self.matrix_coordinates = MatrixCoordinates()
-        self.set_signals()
+    def labels(self):
+        """Отрисовка названия"""
 
-    def set_signals(self):
-        self.signal.restart_signal.connect(self.restart_game)
-        self.signal.closed_signal.connect(self.close_game)
+        self.name_game = QLabel("Game of Go", self)
+        self.name_game.setStyleSheet(self.stylesheet)
+        self.name_game.move(305, 150)
+        self.name_game.resize(500, 60)
 
-    def mouseMoveEvent(self, event):
+    def buttons(self):
+        self.button_0 = QPushButton('Play on the same computer', self)
+        self.button_0.setStyleSheet(self.stylesheet_button)
+        self.button_0.clicked.connect(self.start_with_man)
+        self.button_0.move(180, 285)
+        self.button_0.setFixedSize(500, 50)
+
+        self.button_1 = QPushButton('Play with a stupid bot', self)
+        self.button_1.setStyleSheet(self.stylesheet_button)
+        self.button_1.clicked.connect(self.start_easy_bot)
+        self.button_1.move(180, 355)
+        self.button_1.setFixedSize(500, 50)
+
+        self.button_2 = QPushButton('Play with a smarter bot ', self)
+        self.button_2.setStyleSheet(self.stylesheet_button)
+        self.button_2.clicked.connect(self.start_clever_bot)
+
+        self.button_2.move(180, 425)
+        self.button_2.setFixedSize(500, 50)
+
+    def start_with_man(self):
+        self.window = ResponseInterface()
+        self.start_game()
+
+    def start_easy_bot(self):
+        self.window = RandomBot()
+        self.start_game()
+
+    def start_clever_bot(self):
         pass
 
-    def get_player_color(self):
-        if self.move_number % 2 == 0:
-            return PlayerColor.BLACK
-        else:
-            return PlayerColor.WHITE
-
-    def mousePressEvent(self, event):
-        color = self.get_player_color()
-        if self.game.validate_set_stones(event.x(), event.y()):
-            x_mouse, y_mouse = event.x(), event.y()
-            transformed_coord = self.matrix_coordinates.transformed_coord_mouse(x_mouse, y_mouse)
-            normalized_coord = self.matrix_coordinates.get_normalize_coord(transformed_coord)
-            print(normalized_coord, " <-- ход")
-            if self.move_is_valid(transformed_coord, normalized_coord, color):
-                self.draw_points()
-                self.what_to_do()
-
-                self.draw_new_stone(transformed_coord, normalized_coord)
-                self.move_number += 1
-                self.set_who_run()
-
-                print("ХОД ВАЛИДНЫЙ")
-
-            else:
-                print("ХОД НЕ ВАЛИДНЫЙ")
-
-            self.game.print_log_game()
-            print("-" * 30)
-
-    def draw_points(self):
-        black_groups, white_groups = self.game.get_black_white_groups()
-        self.black_points = self.count_points.count_points_black(black_groups)
-        self.white_points = self.count_points.count_points_white(white_groups)
-        self.redraw_points_black(self.black_points)
-        self.redraw_points_white(self.white_points)
-
-    def move_is_valid(self, transformed_coord, normalized_coord, color):
-        return self.game.move_is_valid(transformed_coord, normalized_coord, color)
-
-    def what_to_do(self):
-        self.game.set_new_move()
-        removed_black, removed_white = self.game.get_removed_groups()
-        if self.get_player_color() == PlayerColor.BLACK:
-            if len(removed_white) != 0:
-                self.game.delete_stones_in_dict(removed_white)
-                self.hide_stones(removed_white)
-        else:
-            if len(removed_black) != 0:
-                self.game.delete_stones_in_dict(removed_black)
-                self.hide_stones(removed_black)
-
-    def draw_new_stone(self, transformed_coord, normalized_coord):
-        if self.get_player_color() == PlayerColor.BLACK:
-            self.draw_stone_b(transformed_coord, normalized_coord)
-            self.move_color = PlayerColor.WHITE
-            self.col_pass_black = 0
-            self.pass_white.setEnabled(True)
-            self.pass_black.setEnabled(False)
-        else:
-            self.draw_stone_w(transformed_coord, normalized_coord)
-            self.move_color = PlayerColor.BLACK
-            self.col_pass_white = 0
-            self.pass_white.setEnabled(False)
-            self.pass_black.setEnabled(True)
-
-    def set_who_run(self):
-        self.draw_who_run(self.move_number)
-
-    def hide_stones(self, remove_group):
-        for group in remove_group:
-            for norm_coord in group:
-                self.del_chip(norm_coord)
-
-    def get_pass_black(self):
-        self.move_number += 1
-        self.set_who_run()
-        self.col_pass_black = 1
-
-        self.pass_black.setEnabled(False)
-        self.pass_white.setEnabled(True)
-        if self.col_pass_white == 1:
-            print("конец")
-            self.draw_menu()
-
-    def get_pass_white(self):
-        self.move_number += 1
-        self.set_who_run()
-
-        self.col_pass_white = 1
-        self.pass_white.setEnabled(False)
-        self.pass_black.setEnabled(True)
-        if self.col_pass_black == 1:
-            print("конец")
-            self.draw_menu()
-
-    # def action_random_bot
-
-    def draw_menu(self):
+    def start_game(self):
         self.close()
-        new_win = EndGameInterFace(self, self.signal, self.black_points, self.white_points)
-        new_win.show()
-
-    def close_game(self):
-        self.close()
-
-    def closeEvent(self, event):
-        self.close_game()
-
-    def restart_game(self):
-        self.close_game()
-        from platform import system
-        import os
-
-        system = system()
-        if system == "Windows":
-            start = "python {}".format(ConstantsName.point_program)
-        else:
-            start = "python3 {}".format(ConstantsName.point_program)
-        os.system(start)
+        self.window.show()
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = ResponseInterface()
+    window = StartInterface()
     window.show()
     app.exec_()
