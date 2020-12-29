@@ -6,9 +6,9 @@ from interface.style import Style
 from os.path import join
 
 
-class GameInterface(Style):
+class BaseGameInterface(Style):
     def __init__(self):
-        super(GameInterface, self).__init__()
+        super(BaseGameInterface, self).__init__()
         self.setFixedSize(850, 700)
 
 

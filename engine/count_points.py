@@ -13,8 +13,8 @@ class CountPoints:
             points += len(group)
         return points
 
-    def count_points_black(self, black_groups):
+    def get_count_points_black(self, black_groups):
         return self._count_points(black_groups)
 
-    def count_points_white(self, white_groups):
+    def get_count_points_white(self, white_groups):
         return self._count_points(white_groups)

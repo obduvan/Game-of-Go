@@ -7,11 +7,11 @@ from engine.signals import Signals
 from coordinates_generator.matrix_coordinates import MatrixCoordinates
 from interface.end_game_interface import EndGameInterFace
 from engine.game import Game
-from interface.game_interface import GameInterface, QApplication
+from interface.base_game_interface import BaseGameInterface, QApplication
 from player_color import PlayerColor
 
 
-class ResponseInterface(GameInterface):
+class ResponseInterface(BaseGameInterface):
     def __init__(self):
         super(ResponseInterface, self).__init__()
         self.col_pass_black = False
@@ -62,13 +62,13 @@ class ResponseInterface(GameInterface):
                 self.hide_stones(removed_black)
 
     def set_new_stone(self, transformed_coord, normalized_coord):
-        self.draw_points()
         self.set_new_gambit()
         self.draw_new_stone(transformed_coord, normalized_coord)
         self.move_number += 1
         self.draw_who_run(self.move_number)
 
         self.set_not_pass_gambit()
+        self.draw_points()
         self.game.print_log_game()
         print("-" * 30)
         print("ХОД ВАЛИДНЫЙ")
@@ -90,8 +90,8 @@ class ResponseInterface(GameInterface):
 
     def draw_points(self):
         black_groups, white_groups = self.game.get_black_white_groups()
-        self.black_points = self.count_points.count_points_black(black_groups)
-        self.white_points = self.count_points.count_points_white(white_groups)
+        self.black_points = self.count_points.get_count_points_black(black_groups)
+        self.white_points = self.count_points.get_count_points_white(white_groups)
         self.redraw_points_black(self.black_points)
         self.redraw_points_white(self.white_points)
 
