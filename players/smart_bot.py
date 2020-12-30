@@ -12,6 +12,7 @@ class SmartBot(ResponseInterface):
         super(SmartBot, self).__init__()
         self.matrix_coordinates_2 = MatrixCoordinates()
         self.transform_coords = self.matrix_coordinates_2.get_matrix_cord_trans()
+        self.normalize_coords_2 = self.matrix_coordinates_2.get_matrix_cord_norm()
         self.set_frequency_render()
         self.color = PlayerColor.WHITE
 
@@ -95,7 +96,6 @@ class SmartBot(ResponseInterface):
         if best_attack_stone != False:
             new_moves_list_norm = self.get_list_moves(best_attack_stone)
             return self.is_valid_new_moves_list(new_moves_list_norm)
-
         elif empty_stone != False:
             new_moves_list_norm = self.get_list_moves(empty_stone)
             return self.is_valid_new_moves_list(new_moves_list_norm)
@@ -144,11 +144,7 @@ class SmartBot(ResponseInterface):
         transform_coord_bot = random.choice(self.transform_coords)
         normalize_coord_bot = self.matrix_coordinates_2.get_normalize_coord(transform_coord_bot)
         if not self.is_valid_gambit(transform_coord_bot, normalize_coord_bot, self.color):
-            try:
-                self.standard_move()
-            except Exception as e:
-                assert e
-                self.pass_gambit()
+            self.standard_move()
         else:
             print("стандартный мув")
             self.set_new_stone(transform_coord_bot, normalize_coord_bot)
@@ -167,15 +163,7 @@ class SmartBot(ResponseInterface):
             print(e)
             self.pass_gambit()
 
-    # def mouseReleaseEvent(self, event):
-    #     try:
-    #         if self.get_player_color() == PlayerColor.WHITE:
-    #             self.action()
-    #     except Exception as e:
-    #         print(e)
-    #         self.pass_gambit()
-
     def pass_gambit(self):
-        print("pass")
-        time.sleep(0.5)
+        # print("pass")
+        time.sleep(0.2)
         self.get_pass_white()

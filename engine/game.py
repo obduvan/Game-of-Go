@@ -64,11 +64,12 @@ class Game:
                 self.normalize_coord_stones_dict.pop(norm_cord)
 
     def print_log_game(self):
+        pass
         # print("Все точки на карте:")
         #
         # for cord in self.normalize_coord_stones_dict:
         #     print(cord)
-        print(self._free_points)
+        # print(self._free_points)
         print(self.black_groups, " <--- black groups")
         print(self.white_groups, " <--- white_groups")
 

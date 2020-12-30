@@ -56,7 +56,6 @@ class ValidateGameRule:
         if self.color_stone == PlayerColor.BLACK:
             if self.is_new_black_has_died:
                 if self.is_new_white_has_died:
-                    # if self.is_ko_situation():
                     self.VALID_MOVE = True
                 else:
                     self.VALID_MOVE = False
@@ -65,7 +64,6 @@ class ValidateGameRule:
         else:
             if self.is_new_white_has_died:
                 if self.is_new_black_has_died:
-                    # if self.is_ko_situation():
                     self.VALID_MOVE = True
                 else:
                     self.VALID_MOVE = False

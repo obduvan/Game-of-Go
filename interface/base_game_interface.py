@@ -37,6 +37,7 @@ class BaseGameInterface(Style):
         self.label_board.setPixmap(pixmap)
         self.label_board.move(220, 220)
         self.label_board.show()
+        self.leave_buttons()
 
     def draw_color_players(self):
         """Отрисовка количества очков игроков"""
@@ -57,6 +58,14 @@ class BaseGameInterface(Style):
         chip.move(point[0] - 24 / 2, point[1] - 18 / 2)
         chip.show()
         self.dict_norm_coord_label.update({norm_coord: chip})
+
+    def leave_buttons(self):
+        self.pass_black = QPushButton("Menu", self)
+        self.pass_black.setStyleSheet(self.stylesheet_button)
+        self.pass_black.clicked.connect(self.restart_game)
+        self.pass_black.setFixedSize(80, 40)
+        self.pass_black.move(30, 20)
+        self.pass_black.show()
 
     def draw_pass_command(self):
         """Отрисовка команды pass"""
