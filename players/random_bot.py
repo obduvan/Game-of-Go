@@ -34,11 +34,6 @@ class RandomBot(ResponseInterface):
         if self.get_player_color() == PlayerColor.WHITE:
             self.action()
 
-    # def mouseReleaseEvent(self, event):
-    #
-    #     if self.move_color == PlayerColor.WHITE:
-    #         self.buffer_coords = set()
-    #         self.action()
 
     def pass_gambit(self):
         print("pass")

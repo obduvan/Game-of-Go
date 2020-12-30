@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import *
 from interface.response_interface import ResponseInterface
 from interface.style import Style
 from players.random_bot import RandomBot
+from players.smart_bot import SmartBot
 
 
 class StartInterface(Style):
@@ -51,7 +52,9 @@ class StartInterface(Style):
         self.start_game()
 
     def start_clever_bot(self):
-        pass
+        self.window = SmartBot()
+        self.start_game()
+
 
     def start_game(self):
         self.close()
