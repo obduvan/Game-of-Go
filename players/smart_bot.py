@@ -1,6 +1,5 @@
 import time
 
-from PyQt5.QtCore import QBasicTimer
 from coordinates_generator.matrix_coordinates import MatrixCoordinates
 import random
 from player_color import PlayerColor
@@ -30,28 +29,30 @@ class SmartBot:
             return self.is_valid_new_moves_list(new_moves_list_norm)
         return False
 
-    def action(self):
+    def queens_gambit(self):
         if self.check_defender():
-            print("defender")
-            return {"type": "move", "trans_cord": self.transform_coord_bot, "norm_cord": self.norm_cord}
-
+            # print("defender")
+            return True
 
         if self.check_attack():
-            print("attack")
-            return {"type": "move", "trans_cord": self.transform_coord_bot, "norm_cord": self.norm_cord}
-
+            # print("attack")
+            return True
 
         if self.smart_attack():
-            print("smart_attack")
-            return {"type": "move", "trans_cord": self.transform_coord_bot, "norm_cord": self.norm_cord}
-
+            # print("smart_attack")
+            return True
 
         if self.check_create():
-            print("create")
+            # print("create")
+            return True
+
+        return False
+
+    def action(self):
+        if self.queens_gambit():
             return {"type": "move", "trans_cord": self.transform_coord_bot, "norm_cord": self.norm_cord}
-
-
-        return self.standard_move()
+        else:
+            return self.standard_move()
 
     def is_valid_new_moves_list(self, new_moves_list_norm):
         is_valid_new_move = False
@@ -144,7 +145,7 @@ class SmartBot:
             try:
                 return self.standard_move()
             except Exception:
-                self.pass_gambit()
+                return self.pass_gambit()
         else:
             # print("стандартный мув")
             return {"type": "move", "trans_cord": transform_coord_bot, "norm_cord": normalize_coord_bot}
@@ -155,14 +156,5 @@ class SmartBot:
                 (stone.x_norm, stone.y_norm + 1),
                 (stone.x_norm, stone.y_norm - 1)]
 
-    # def timerEvent(self, event):
-    #     try:
-    #         if self.game.get_player_color() == PlayerColor.WHITE:
-    #             self.action()
-    #     except Exception as e:
-    #         # print(e)
-    #         self.pass_gambit()
-
     def pass_gambit(self):
-        time.sleep(0.2)
         return {"type": "pass", "trans_cord": (0, 0), "norm_cord": (0, 0)}

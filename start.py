@@ -2,11 +2,8 @@ import sys
 
 from PyQt5.QtWidgets import *
 
-from interface.response_interface import ResponseInterface
 from interface.style import Style
 from interface.time_interface import TimeInterface
-from players.random_bot import RandomBot
-from players.smart_bot import SmartBot
 
 
 class StartInterface(Style):

@@ -49,6 +49,17 @@ class Style(QWidget):
             }
             """
 
+        self.stylesheet_clock = """
+                   QLabel
+                   {   
+                       font: Lucida Console;
+                       color: #1F1F2E;
+                       font-size: 30px;
+                       font-weight: bold;
+
+                   }
+                   """
+
         self.stylesheet = """
             QLabel
             {   

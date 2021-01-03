@@ -56,3 +56,12 @@ class MatrixCoordinates:
             if coord_norm == self._normalize_coord[i]:
                 return i
         return 10**3, 10**3
+
+    def get_dict(self):
+        return self._normalize_coord
+
+# a = MatrixCoordinates()
+# b = a.get_matrix_cord_trans()
+# c  = a.get_matrix_cord_norm()
+# d = a.get_dict()
+# print(c)

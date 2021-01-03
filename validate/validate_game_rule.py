@@ -47,7 +47,7 @@ class ValidateGameRule:
             if n == len(color_group):
                 new_color_groups.remove(color_group)
                 removed_groups.append(color_group)
-                print(color_group, " <--- мертва")
+                # print(color_group, " <--- мертва")
             n = 0
 
         return removed_groups

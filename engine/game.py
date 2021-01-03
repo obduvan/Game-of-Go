@@ -99,6 +99,12 @@ class Game:
     def get_black_white_groups(self):
         return self.black_groups, self.white_groups
 
+    def get_black_groups(self):
+        return self.black_groups
+
+    def get_white_groups(self):
+        return self.white_groups
+
     def get_normalize_coord_stones_dict(self):
         return self.normalize_coord_stones_dict
 

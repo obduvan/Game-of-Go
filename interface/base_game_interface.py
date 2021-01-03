@@ -146,7 +146,7 @@ class BaseGameInterface(Style):
 
     def draw_time(self, time):
         self.type_time = QLabel(time, self)
-        self.type_time.setStyleSheet(self.stylesheet)
-        self.type_time.move(340, 625)
+        self.type_time.setStyleSheet(self.stylesheet_clock)
+        self.type_time.move(360, 625)
         self.type_time.resize(500, 60)
         self.type_time.show()
