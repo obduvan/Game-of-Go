@@ -4,6 +4,7 @@ from coordinates_generator.matrix_coordinates import MatrixCoordinates
 from engine.game_move_log import GameMoveLog
 from engine.current_step_game import CurrentStepGame
 from engine.groups_move import GroupsMove
+from player_color import PlayerColor
 from validate.validate import Validate
 from validate.validate_game_rule import ValidateGameRule
 
@@ -16,11 +17,18 @@ class Game:
         self._free_points = MatrixCoordinates().get_matrix_cord_norm()
         self.normalize_coord_stones_dict = {}
 
+        self._move_number_engine = 0
         self.black_groups = []
         self.white_groups = []
 
         self.removed_black_group = []
         self.removed_white_group = []
+
+    def update_move_number_engine(self):
+        self._move_number_engine += 1
+
+    def get_move_number_engine(self):
+        return self._move_number_engine
 
     def move_is_valid(self, transformed_coord, normalize_coord, color):
         self.current_step_game = CurrentStepGame(transformed_coord, normalize_coord,
@@ -51,6 +59,19 @@ class Game:
             GroupsMove(self.black_groups, self.white_groups))
 
         self.update_free_points()
+
+    def get_hide_stones(self):
+        removed_black, removed_white = self.get_removed_groups()
+        if self.get_player_color() == PlayerColor.BLACK:
+            if len(removed_white) != 0:
+                self.delete_stones_in_dict(removed_white)
+                return removed_white
+            return []
+        else:
+            if len(removed_black) != 0:
+                self.delete_stones_in_dict(removed_black)
+                return removed_black
+            return []
 
     def update_free_points(self):
         self._free_points = set(self._free_points).difference(set(self.normalize_coord_stones_dict.keys()))
@@ -84,3 +105,9 @@ class Game:
 
     def validate_set_stones(self, x_norm, y_norm):
         return self.validate.validate_free_place(self.normalize_coord_stones_dict, x_norm, y_norm)
+
+    def get_player_color(self):
+        if self._move_number_engine % 2 == 0:
+            return PlayerColor.BLACK
+        else:
+            return PlayerColor.WHITE

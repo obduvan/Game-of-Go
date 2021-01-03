@@ -36,7 +36,7 @@ class RandomBot(ResponseInterface):
             self.set_new_stone(transform_coord_bot, normalize_coord_bot)
 
     def timerEvent(self, event):
-        if self.get_player_color() == self.color:
+        if self.game.get_player_color() == self.color:
             self.action()
 
     def pass_gambit(self):

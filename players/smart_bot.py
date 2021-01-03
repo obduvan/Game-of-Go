@@ -39,19 +39,19 @@ class SmartBot(ResponseInterface):
     def action(self):
         if self.check_defender():
             self.set_new_stone(self.transform_coord_bot, self.norm_cord)
-            print("defender")
+            # print("defender")
             return
         if self.check_attack():
             self.set_new_stone(self.transform_coord_bot, self.norm_cord)
-            print("attack")
+            # print("attack")
             return
         if self.smart_attack():
             self.set_new_stone(self.transform_coord_bot, self.norm_cord)
-            print("smart_attack")
+            # print("smart_attack")
             return
         if self.check_create():
             self.set_new_stone(self.transform_coord_bot, self.norm_cord)
-            print("create")
+            # print("create")
             return
 
         self.standard_move()
@@ -146,7 +146,7 @@ class SmartBot(ResponseInterface):
         if not self.is_valid_gambit(transform_coord_bot, normalize_coord_bot, self.color):
             self.standard_move()
         else:
-            print("стандартный мув")
+            # print("стандартный мув")
             self.set_new_stone(transform_coord_bot, normalize_coord_bot)
 
     def get_list_moves(self, stone):
@@ -157,10 +157,10 @@ class SmartBot(ResponseInterface):
 
     def timerEvent(self, event):
         try:
-            if self.get_player_color() == PlayerColor.WHITE:
+            if self.game.get_player_color() == PlayerColor.WHITE:
                 self.action()
         except Exception as e:
-            print(e)
+            # print(e)
             self.pass_gambit()
 
     def pass_gambit(self):
