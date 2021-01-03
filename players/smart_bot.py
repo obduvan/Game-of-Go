@@ -2,23 +2,17 @@ import time
 
 from PyQt5.QtCore import QBasicTimer
 from coordinates_generator.matrix_coordinates import MatrixCoordinates
-from interface.response_interface import ResponseInterface
 import random
 from player_color import PlayerColor
 
 
-class SmartBot(ResponseInterface):
-    def __init__(self, is_move_time=None, is_game_time=None, all_time=None):
-        super(SmartBot, self).__init__(is_move_time, is_game_time, all_time)
+class SmartBot:
+    def __init__(self, game):
         self.matrix_coordinates_2 = MatrixCoordinates()
+        self.game = game
         self.transform_coords = self.matrix_coordinates_2.get_matrix_cord_trans()
         self.normalize_coords_2 = self.matrix_coordinates_2.get_matrix_cord_norm()
-        self.set_frequency_render()
         self.color = PlayerColor.WHITE
-
-    def set_frequency_render(self):
-        self.timer_smart_bot = QBasicTimer()
-        self.timer_smart_bot.start(300, self)
 
     def check_defender(self):
         kol_enemy = 0
@@ -38,31 +32,34 @@ class SmartBot(ResponseInterface):
 
     def action(self):
         if self.check_defender():
-            self.set_new_stone(self.transform_coord_bot, self.norm_cord)
-            # print("defender")
-            return
-        if self.check_attack():
-            self.set_new_stone(self.transform_coord_bot, self.norm_cord)
-            # print("attack")
-            return
-        if self.smart_attack():
-            self.set_new_stone(self.transform_coord_bot, self.norm_cord)
-            # print("smart_attack")
-            return
-        if self.check_create():
-            self.set_new_stone(self.transform_coord_bot, self.norm_cord)
-            # print("create")
-            return
+            print("defender")
+            return {"type": "move", "trans_cord": self.transform_coord_bot, "norm_cord": self.norm_cord}
 
-        self.standard_move()
+
+        if self.check_attack():
+            print("attack")
+            return {"type": "move", "trans_cord": self.transform_coord_bot, "norm_cord": self.norm_cord}
+
+
+        if self.smart_attack():
+            print("smart_attack")
+            return {"type": "move", "trans_cord": self.transform_coord_bot, "norm_cord": self.norm_cord}
+
+
+        if self.check_create():
+            print("create")
+            return {"type": "move", "trans_cord": self.transform_coord_bot, "norm_cord": self.norm_cord}
+
+
+        return self.standard_move()
 
     def is_valid_new_moves_list(self, new_moves_list_norm):
         is_valid_new_move = False
         k = len(new_moves_list_norm)
 
         for norm_cord in new_moves_list_norm:
-            trans_cord = self.matrix_coordinates.get_transformed_coord_norm(norm_cord)
-            if self.is_valid_gambit(trans_cord, norm_cord, self.color):
+            trans_cord = self.matrix_coordinates_2.get_transformed_coord_norm(norm_cord)
+            if self.game.move_is_valid(trans_cord, norm_cord, self.color):
                 is_valid_new_move = True
                 self.norm_cord = norm_cord
                 self.transform_coord_bot = trans_cord
@@ -71,8 +68,8 @@ class SmartBot(ResponseInterface):
         return is_valid_new_move
 
     def is_valid_specific_point(self, norm_cord):
-        trans_cord = self.matrix_coordinates.get_transformed_coord_norm(norm_cord)
-        if self.is_valid_gambit(trans_cord, norm_cord, self.color):
+        trans_cord = self.matrix_coordinates_2.get_transformed_coord_norm(norm_cord)
+        if self.game.move_is_valid(trans_cord, norm_cord, self.color):
             self.norm_cord = norm_cord
             self.transform_coord_bot = trans_cord
             return True
@@ -143,11 +140,14 @@ class SmartBot(ResponseInterface):
     def standard_move(self):
         transform_coord_bot = random.choice(self.transform_coords)
         normalize_coord_bot = self.matrix_coordinates_2.get_normalize_coord(transform_coord_bot)
-        if not self.is_valid_gambit(transform_coord_bot, normalize_coord_bot, self.color):
-            self.standard_move()
+        if not self.game.move_is_valid(transform_coord_bot, normalize_coord_bot, self.color):
+            try:
+                return self.standard_move()
+            except Exception:
+                self.pass_gambit()
         else:
             # print("стандартный мув")
-            self.set_new_stone(transform_coord_bot, normalize_coord_bot)
+            return {"type": "move", "trans_cord": transform_coord_bot, "norm_cord": normalize_coord_bot}
 
     def get_list_moves(self, stone):
         return [(stone.x_norm + 1, stone.y_norm),
@@ -155,15 +155,14 @@ class SmartBot(ResponseInterface):
                 (stone.x_norm, stone.y_norm + 1),
                 (stone.x_norm, stone.y_norm - 1)]
 
-    def timerEvent(self, event):
-        try:
-            if self.game.get_player_color() == PlayerColor.WHITE:
-                self.action()
-        except Exception as e:
-            # print(e)
-            self.pass_gambit()
+    # def timerEvent(self, event):
+    #     try:
+    #         if self.game.get_player_color() == PlayerColor.WHITE:
+    #             self.action()
+    #     except Exception as e:
+    #         # print(e)
+    #         self.pass_gambit()
 
     def pass_gambit(self):
-        # print("pass")
         time.sleep(0.2)
-        self.get_pass_white()
+        return {"type": "pass", "trans_cord": (0, 0), "norm_cord": (0, 0)}

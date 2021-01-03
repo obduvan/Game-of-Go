@@ -1,14 +1,16 @@
 from PyQt5.QtWidgets import *
 
+from interface.response_interface import ResponseInterface
 from interface.style import Style
 from validate.validate_input_time import ValidateInputTime
 
 
 class TimeMove(Style):
-    def __init__(self, type_game):
+    def __init__(self, random_bot=False, smart_bot=False):
         super(TimeMove, self).__init__()
         self.setFixedSize(850, 700)
-        self.type_game = type_game
+        self.random_bot = random_bot
+        self.smart_bot = smart_bot
         self.buttons()
         self.labels()
 
@@ -54,16 +56,19 @@ class TimeMove(Style):
 
     def go_back(self):
         from interface.time_interface import TimeInterface
-        self.start_interface(TimeInterface(self.type_game))
+        self.window = TimeInterface(self.random_bot, self.smart_bot)
+        self.close()
+        self.window.show()
+
 
     def start_game(self):
         time_min = self.min_line.text()
         time_sec = self.sec_line.text()
         if ValidateInputTime.validate_time(time_sec, time_min):
             all_time = int(time_sec) + int(time_min) * 60
-            self.start_interface(self.type_game(True, False, all_time))
+            self.start_interface(all_time)
 
-    def start_interface(self, interface):
-        self.window = interface
+    def start_interface(self, all_time):
+        self.window = ResponseInterface(True, False, all_time, self.random_bot, self.smart_bot)
         self.close()
         self.window.show()

@@ -3,16 +3,19 @@
 from PyQt5.QtWidgets import *
 
 from constants.constants_name import ConstantsName
+from interface.response_interface import ResponseInterface
 from interface.style import Style
 from interface.time_game import TimeGame
 from interface.time_move import TimeMove
 
 
 class TimeInterface(Style):
-    def __init__(self, type_game):
+    def __init__(self, random_bot=False, smart_bot=False):
         super(TimeInterface, self).__init__()
         self.setFixedSize(850, 700)
-        self.type_game = type_game
+        self.random_bot = random_bot
+        self.smart_bot = smart_bot
+
         self.buttons()
         self.labels()
 
@@ -62,13 +65,13 @@ class TimeInterface(Style):
         os.system(start)
 
     def set_without_time(self):
-        self.start_game(self.type_game())
+        self.start_game(ResponseInterface(random_bot=self.random_bot, smart_bot=self.smart_bot))
 
     def set_time_move(self):
-        self.start_game(TimeMove(self.type_game))
+        self.start_game(TimeMove(random_bot=self.random_bot, smart_bot=self.smart_bot))
 
     def set_time_game(self):
-        self.start_game(TimeGame(self.type_game))
+        self.start_game(TimeGame(random_bot=self.random_bot, smart_bot=self.smart_bot))
 
     def start_game(self, interface):
         self.window = interface

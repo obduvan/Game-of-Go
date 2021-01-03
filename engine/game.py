@@ -31,22 +31,24 @@ class Game:
         return self._move_number_engine
 
     def move_is_valid(self, transformed_coord, normalize_coord, color):
-        self.current_step_game = CurrentStepGame(transformed_coord, normalize_coord,
-                                                 copy.deepcopy(self.normalize_coord_stones_dict), self.black_groups,
-                                                 self.white_groups, color,)
+        if self.validate_set_stones(normalize_coord[0], normalize_coord[1]):
+            self.current_step_game = CurrentStepGame(transformed_coord, normalize_coord,
+                                                     copy.deepcopy(self.normalize_coord_stones_dict), self.black_groups,
+                                                     self.white_groups, color,)
 
-        normalize_coord_stones_dict = self.current_step_game.normalize_coord_stones_dict
+            normalize_coord_stones_dict = self.current_step_game.normalize_coord_stones_dict
 
-        new_black_groups = self.current_step_game.new_black_groups
-        new_white_groups = self.current_step_game.new_white_groups
+            new_black_groups = self.current_step_game.new_black_groups
+            new_white_groups = self.current_step_game.new_white_groups
 
-        self.validate_game_rule = ValidateGameRule(
-            normalize_coord_stones_dict, new_black_groups, new_white_groups, color)
+            self.validate_game_rule = ValidateGameRule(
+                normalize_coord_stones_dict, new_black_groups, new_white_groups, color)
 
-        self.validate_game_rule.update_dame_groups()
-        answer = self.validate_game_rule.make_decision()
+            self.validate_game_rule.update_dame_groups()
+            answer = self.validate_game_rule.make_decision()
 
-        return answer
+            return answer
+        return False
 
     def set_new_move(self):
         self.black_groups = self.current_step_game.new_black_groups
