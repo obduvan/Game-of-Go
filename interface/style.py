@@ -38,6 +38,17 @@ class Style(QWidget):
             }
         """
 
+        self.stylesheet_time_label = """
+            QLabel
+            {   
+                font: Lucida Console;
+                color: #1F1F2E;
+                font-size: 30px;
+                font-weight: bold;
+
+            }
+            """
+
         self.stylesheet = """
             QLabel
             {   
@@ -88,6 +99,35 @@ class Style(QWidget):
                           }
                           """
 
+        self.stylesheet_line = """
+                        QLineEdit
+                        {
+                            background-color: #817784;
+                            border-style: outset;
+                            min-height:1.2em;
+                            border-radius: 10px;
+                            border-color: beige;
+                            font: bold 20px;
+                            min-width: 3em;
+                            padding: 6px;    
+                        }   
+                        """
+
+        self.stylesheet_button_back = """
+                    QPushButton
+                    {
+                        font: Gill Sans;
+                        color: #191616;
+                        font-size: 20px;             
+                        font-weight: bold;
+                        border-radius: 7px;          
+                    }
+
+                    QPushButton:hover { background-color: #9D92A1 }
+                    QPushButton:!hover { background-color: #A687A8   }
+                    QPushButton:pressed { background-color: #C6C5C6 }
+                    """
+
         self.stylesheet_button = """
             QPushButton
             {
@@ -99,6 +139,6 @@ class Style(QWidget):
             }
 
             QPushButton:hover { background-color: #9D92A1 }
-            QPushButton:!hover { background-color: #786E7D   }
+            QPushButton:!hover { background-color: #817784   }
             QPushButton:pressed { background-color: #C6C5C6 }
             """

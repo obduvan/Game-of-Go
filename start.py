@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import *
 
 from interface.response_interface import ResponseInterface
 from interface.style import Style
+from interface.time_interface import TimeInterface
 from players.random_bot import RandomBot
 from players.smart_bot import SmartBot
 
@@ -44,15 +45,15 @@ class StartInterface(Style):
         self.button_2.setFixedSize(500, 50)
 
     def start_with_man(self):
-        self.window = ResponseInterface()
+        self.window = TimeInterface(ResponseInterface)
         self.start_game()
 
     def start_easy_bot(self):
-        self.window = RandomBot()
+        self.window = TimeInterface(RandomBot)
         self.start_game()
 
     def start_clever_bot(self):
-        self.window = SmartBot()
+        self.window = TimeInterface(SmartBot)
         self.start_game()
 
 
@@ -66,3 +67,4 @@ if __name__ == "__main__":
     window = StartInterface()
     window.show()
     app.exec_()
+

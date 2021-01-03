@@ -70,8 +70,8 @@ class Game:
         # for cord in self.normalize_coord_stones_dict:
         #     print(cord)
         # print(self._free_points)
-        print(self.black_groups, " <--- black groups")
-        print(self.white_groups, " <--- white_groups")
+        # print(self.black_groups, " <--- black groups")
+        # print(self.white_groups, " <--- white_groups")
 
     def get_black_white_groups(self):
         return self.black_groups, self.white_groups

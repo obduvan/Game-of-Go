@@ -11,7 +11,6 @@ class BaseGameInterface(Style):
         super(BaseGameInterface, self).__init__()
         self.setFixedSize(850, 700)
 
-
         self.dict_norm_coord_label = {}
         self.labels()
         self.draw_color_players()
@@ -19,7 +18,6 @@ class BaseGameInterface(Style):
         self.draw_pass_command()
         self.draw_points_black()
         self.draw_points_white()
-
 
     def labels(self):
         """Отрисовка названия"""
@@ -146,3 +144,9 @@ class BaseGameInterface(Style):
         self.pass_black.setEnabled(black)
         self.pass_white.setEnabled(white)
 
+    def draw_time(self, time):
+        self.type_time = QLabel(time, self)
+        self.type_time.setStyleSheet(self.stylesheet)
+        self.type_time.move(340, 625)
+        self.type_time.resize(500, 60)
+        self.type_time.show()

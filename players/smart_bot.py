@@ -8,8 +8,8 @@ from player_color import PlayerColor
 
 
 class SmartBot(ResponseInterface):
-    def __init__(self):
-        super(SmartBot, self).__init__()
+    def __init__(self, is_move_time=None, is_game_time=None, all_time=None):
+        super(SmartBot, self).__init__(is_move_time, is_game_time, all_time)
         self.matrix_coordinates_2 = MatrixCoordinates()
         self.transform_coords = self.matrix_coordinates_2.get_matrix_cord_trans()
         self.normalize_coords_2 = self.matrix_coordinates_2.get_matrix_cord_norm()
@@ -17,8 +17,8 @@ class SmartBot(ResponseInterface):
         self.color = PlayerColor.WHITE
 
     def set_frequency_render(self):
-        self.timer = QBasicTimer()
-        self.timer.start(300, self)
+        self.timer_smart_bot = QBasicTimer()
+        self.timer_smart_bot.start(300, self)
 
     def check_defender(self):
         kol_enemy = 0

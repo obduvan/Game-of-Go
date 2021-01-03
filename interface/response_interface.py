@@ -1,4 +1,7 @@
 import sys
+from datetime import datetime
+
+from PyQt5.QtCore import QTimer
 
 from constants.constants_name import ConstantsName
 from engine.count_points import CountPoints
@@ -12,13 +15,18 @@ from player_color import PlayerColor
 
 
 class ResponseInterface(BaseGameInterface):
-    def __init__(self):
+    def __init__(self, is_move_time=False, is_game_time=False, all_time=None):
         super(ResponseInterface, self).__init__()
         self.col_pass_black = False
         self.col_pass_white = False
         self.move_number = 0
+        self.is_move_time = is_move_time
+        self.is_game_time = is_game_time
+        self.all_time = all_time
+        self.copy_time = all_time
         self.black_points = 0
         self.white_points = 0
+        self.start_timing()
         self.normalize_coord_stones_dict = {}
         self.game = Game()
 
@@ -26,8 +34,36 @@ class ResponseInterface(BaseGameInterface):
         self.count_points = CountPoints()
 
         self.draw_who_run(self.move_number)
+
         self.matrix_coordinates = MatrixCoordinates()
         self.set_signals()
+
+    def start_timing(self):
+        if self.is_move_time or self.is_game_time:
+            self.start_timer()
+
+    def start_timer(self):
+        self.all_time = self.copy_time
+        self.timer = QTimer(self)
+        self.timer.setInterval(1000)
+        self.timer.timeout.connect(self.update_counter)
+        self.timer.start()
+
+    def validate_time(self):
+        if self.all_time == -1:
+            if self.is_move_time:
+                self.time_transition()
+            else:
+                self.timer.stop()
+                self.draw_menu()
+
+    def update_counter(self):
+        hours = int(self.all_time / 3600)
+        mins = int((self.all_time - hours * 3600) / 60)
+        secs = int(self.all_time % 60)
+        self.draw_time("%d:%02d:%02d" % (hours, mins, secs))
+        self.all_time -= 1
+        self.validate_time()
 
     def set_signals(self):
         self.signal.restart_signal.connect(self.restart_game)
@@ -62,6 +98,8 @@ class ResponseInterface(BaseGameInterface):
                 self.hide_stones(removed_black)
 
     def set_new_stone(self, transformed_coord, normalized_coord):
+        self.check_timer()
+
         self.set_new_gambit()
         self.draw_new_stone(transformed_coord, normalized_coord)
         self.move_number += 1
@@ -70,8 +108,8 @@ class ResponseInterface(BaseGameInterface):
         self.set_not_pass_gambit()
         self.draw_points()
         self.game.print_log_game()
-        print("-" * 30)
-        print("ХОД ВАЛИДНЫЙ")
+        # print("-" * 30)
+        # print("ХОД ВАЛИДНЫЙ")
 
     def set_not_pass_gambit(self):
         if self.get_player_color() == PlayerColor.BLACK:
@@ -81,10 +119,10 @@ class ResponseInterface(BaseGameInterface):
 
     def is_valid_gambit(self, transformed_coord, normalized_coord, color):
         if self.game.validate_set_stones(normalized_coord[0], normalized_coord[1]):
-            print(normalized_coord, " <-- ход")
+            # print(normalized_coord, " <-- ход")
             if self.move_is_valid(transformed_coord, normalized_coord, color):
                 return True
-            print("ХОД НЕ ВАЛИДНЫЙ")
+            # print("ХОД НЕ ВАЛИДНЫЙ")
             return False
         return False
 
@@ -111,7 +149,18 @@ class ResponseInterface(BaseGameInterface):
             for norm_coord in group:
                 self.del_chip(norm_coord)
 
+    def check_timer(self):
+        if self.is_move_time:
+            self.timer.stop()
+            self.start_timer()
+
+    def time_transition(self):
+        self.check_timer()
+        self.move_number += 1
+        self.draw_who_run(self.move_number)
+
     def get_pass_black(self):
+        self.check_timer()
         self.move_number += 1
         self.draw_who_run(self.move_number)
 
@@ -124,6 +173,8 @@ class ResponseInterface(BaseGameInterface):
             self.draw_menu()
 
     def get_pass_white(self):
+        self.check_timer()
+
         self.move_number += 1
         self.draw_who_run(self.move_number)
 
@@ -135,12 +186,18 @@ class ResponseInterface(BaseGameInterface):
             print("конец")
             self.draw_menu()
 
+    def _close_time(self):
+        if self.is_move_time or self.is_game_time:
+            if self.timer.isActive():
+                self.timer.stop()
     def draw_menu(self):
+        self._close_time()
         self.close()
         new_win = EndGameInterFace(self, self.signal, self.black_points, self.white_points)
         new_win.show()
 
     def close_game(self):
+        self._close_time()
         self.close()
 
     def closeEvent(self, event):
