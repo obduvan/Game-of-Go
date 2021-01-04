@@ -51,8 +51,6 @@ class TestSmartBot(unittest.TestCase):
         self.move((415, 450), (5, 4), game, self.color)
         self.move((380, 485), (4, 3), game, self.color)
 
-        # print(game.get_black_white_groups())
-
         bot = SmartBot(game)
         response = bot.action()
         game.set_new_move()
