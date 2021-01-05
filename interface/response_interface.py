@@ -176,7 +176,7 @@ class ResponseInterface(BaseGameInterface):
         self.pass_black.setEnabled(False)
         self.pass_white.setEnabled(True)
 
-        if self.col_pass_white == True:
+        if self.col_pass_white:
             # print("конец")
             self.draw_menu()
 
@@ -191,7 +191,7 @@ class ResponseInterface(BaseGameInterface):
         self.pass_white.setEnabled(False)
         self.pass_black.setEnabled(True)
 
-        if self.col_pass_black == True:
+        if self.col_pass_black:
             # print("конец")
             self.draw_menu()
 

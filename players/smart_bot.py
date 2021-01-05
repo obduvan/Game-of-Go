@@ -24,7 +24,7 @@ class SmartBot:
                     if stone_enemy > kol_enemy:
                         kol_enemy = stone_enemy
                         helped_stone = stone
-        if helped_stone != False:
+        if helped_stone:
             new_moves_list_norm = self.get_list_moves(helped_stone)
             return self.is_valid_new_moves_list(new_moves_list_norm)
         return False
@@ -91,10 +91,10 @@ class SmartBot:
                     kol_enemy = enemies
                     best_attack_stone = stone
 
-        if best_attack_stone != False:
+        if best_attack_stone:
             new_moves_list_norm = self.get_list_moves(best_attack_stone)
             return self.is_valid_new_moves_list(new_moves_list_norm)
-        elif empty_stone != False:
+        elif empty_stone:
             new_moves_list_norm = self.get_list_moves(empty_stone)
             return self.is_valid_new_moves_list(new_moves_list_norm)
         return False
@@ -108,7 +108,7 @@ class SmartBot:
                 if stone_enemy == 0:
                     creation_stone = stone
                     break
-        if creation_stone != False:
+        if creation_stone:
             new_moves_list_norm = self.get_list_moves(creation_stone)
             return self.is_valid_new_moves_list(new_moves_list_norm)
         return False
@@ -134,7 +134,7 @@ class SmartBot:
             for norm_cord_ver in variant_vertical:
                 vertical_color = self.what_is_color(norm_cord_ver)
                 break
-            if horizontal_color != vertical_color and horizontal_color != False and vertical_color != False:
+            if horizontal_color != vertical_color and horizontal_color and vertical_color:
                 return self.is_valid_specific_point(norm_cord)
         return False
 

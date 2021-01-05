@@ -102,5 +102,3 @@ class TestSmartBot(unittest.TestCase):
         expected_white_groups = [[(2, 8), (2, 7)]]
         actual_white_groups = game.get_white_groups()
         self.assertEqual(actual_white_groups, expected_white_groups)
-
-

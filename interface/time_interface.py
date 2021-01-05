@@ -77,5 +77,3 @@ class TimeInterface(Style):
         self.window = interface
         self.close()
         self.window.show()
-
-

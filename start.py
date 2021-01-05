@@ -53,7 +53,6 @@ class StartInterface(Style):
         self.window = TimeInterface(False, True)
         self.start_game()
 
-
     def start_game(self):
         self.close()
         self.window.show()
@@ -64,4 +63,3 @@ if __name__ == "__main__":
     window = StartInterface()
     window.show()
     app.exec_()
-

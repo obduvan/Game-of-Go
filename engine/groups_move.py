@@ -14,4 +14,3 @@ class GroupsMove:
 
     def _check_group(self, other_groups, groups):
         return functools.reduce(lambda x, y: x and y, map(lambda p, q: p == q, other_groups, groups), True)
-

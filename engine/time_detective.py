@@ -9,4 +9,3 @@ class TimeDetective:
 
     def get_move(self):
         return self.move
-

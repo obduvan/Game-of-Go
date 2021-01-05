@@ -59,9 +59,3 @@ class MatrixCoordinates:
 
     def get_dict(self):
         return self._normalize_coord
-
-# a = MatrixCoordinates()
-# b = a.get_matrix_cord_trans()
-# c  = a.get_matrix_cord_norm()
-# d = a.get_dict()
-# print(c)

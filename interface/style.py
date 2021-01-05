@@ -17,30 +17,29 @@ class Style(QWidget):
     def styles(self):
         """Стили программы"""
 
-        self.stylesheet_gamers_run = """   
+        self.stylesheet_gamers_run = """
             QLabel
-            {   
+            {
                 font: Lucida Console;
                 color: #F2E699;
                 font-size: 22px;
-                font-weight: bold;              
+                font-weight: bold;
             }
         """
 
-        self.stylesheet_gamers = """   
-            QLabel
-            {   
+        self.stylesheet_gamers = """
+        QLabel
+            {
                 font: Lucida Console;
-                color: #FFFFF;
+                color: #000000;
                 font-size: 22px;
                 font-weight: bold;
-                
             }
         """
 
         self.stylesheet_time_label = """
             QLabel
-            {   
+            {
                 font: Lucida Console;
                 color: #1F1F2E;
                 font-size: 30px;
@@ -51,7 +50,7 @@ class Style(QWidget):
 
         self.stylesheet_clock = """
                    QLabel
-                   {   
+                   {
                        font: Lucida Console;
                        color: #1F1F2E;
                        font-size: 30px;
@@ -62,12 +61,12 @@ class Style(QWidget):
 
         self.stylesheet = """
             QLabel
-            {   
+            {
                 font: Lucida Console;
                 color: #1F1F2E;
                 font-size: 40px;
                 font-weight: bold;
-                
+
             }
             """
 
@@ -77,7 +76,7 @@ class Style(QWidget):
                 font: Lucida Console;
                 color: #FFB433;
                 font-size: 24px;
-                font-weight: bold;       
+                font-weight: bold;
             }
             """
 
@@ -87,7 +86,7 @@ class Style(QWidget):
                 font: Lucida Console;
                 color: #392A30;
                 font-size: 24px;
-                font-weight: bold;       
+                font-weight: bold;
             }
             """
 
@@ -120,8 +119,8 @@ class Style(QWidget):
                             border-color: beige;
                             font: bold 20px;
                             min-width: 3em;
-                            padding: 6px;    
-                        }   
+                            padding: 6px;
+                        }
                         """
 
         self.stylesheet_button_back = """
@@ -129,9 +128,9 @@ class Style(QWidget):
                     {
                         font: Gill Sans;
                         color: #191616;
-                        font-size: 20px;             
+                        font-size: 20px;
                         font-weight: bold;
-                        border-radius: 7px;          
+                        border-radius: 7px;
                     }
 
                     QPushButton:hover { background-color: #9D92A1 }
@@ -144,9 +143,9 @@ class Style(QWidget):
             {
                 font: Gill Sans;
                 color: #191616;
-                font-size: 20px;             
+                font-size: 20px;
                 font-weight: bold;
-                border-radius: 7px;          
+                border-radius: 7px;
             }
 
             QPushButton:hover { background-color: #9D92A1 }

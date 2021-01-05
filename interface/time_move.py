@@ -60,7 +60,6 @@ class TimeMove(Style):
         self.close()
         self.window.show()
 
-
     def start_game(self):
         time_min = self.min_line.text()
         time_sec = self.sec_line.text()
