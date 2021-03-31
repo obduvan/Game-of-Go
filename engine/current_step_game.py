@@ -1,4 +1,4 @@
-from player_color import PlayerColor
+from constants.player_color import PlayerColor
 from stone.stone import Stone
 
 

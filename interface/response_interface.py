@@ -10,7 +10,7 @@ from coordinates_generator.matrix_coordinates import MatrixCoordinates
 from interface.end_game_interface import EndGameInterFace
 from engine.game import Game
 from interface.base_game_interface import BaseGameInterface, QApplication
-from player_color import PlayerColor
+from constants.player_color import PlayerColor
 from players.random_bot import RandomBot
 from players.smart_bot import SmartBot
 

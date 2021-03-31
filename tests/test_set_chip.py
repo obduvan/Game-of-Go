@@ -3,7 +3,7 @@ import sys
 import unittest
 
 from engine.game import Game
-from player_color import PlayerColor
+from constants.player_color import PlayerColor
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                              os.path.pardir))

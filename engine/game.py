@@ -4,7 +4,7 @@ from coordinates_generator.matrix_coordinates import MatrixCoordinates
 from engine.game_move_log import GameMoveLog
 from engine.current_step_game import CurrentStepGame
 from engine.groups_move import GroupsMove
-from player_color import PlayerColor
+from constants.player_color import PlayerColor
 from validate.validate import Validate
 from validate.validate_game_rule import ValidateGameRule
 

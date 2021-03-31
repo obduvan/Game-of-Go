@@ -1,8 +1,6 @@
-import time
-
 from coordinates_generator.matrix_coordinates import MatrixCoordinates
 import random
-from player_color import PlayerColor
+from constants.player_color import PlayerColor
 
 
 class SmartBot:

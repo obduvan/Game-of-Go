@@ -1,6 +1,6 @@
 
 
-from player_color import PlayerColor
+from constants.player_color import PlayerColor
 
 
 class ValidateGameRule:
