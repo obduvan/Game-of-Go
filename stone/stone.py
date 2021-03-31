@@ -1,4 +1,4 @@
-from MatrixCoordinates import MatrixCoordinates
+from coordinates_generator.matrix_coordinates import MatrixCoordinates
 from validate.validate import Validate
 
 
@@ -14,29 +14,34 @@ class Stone:
         self.list_dames = []
         self.neighbor_stones = []
         self.neighbor_coordinates = []
+        self.enemy_coordinates = []
 
     def coordinates_generator(self):
-        for new_x_norm, new_y_norm in ([(self.x_norm, self.y_norm + 1), (self.x_norm,  self.y_norm - 1), (self.x_norm + 1, self.y_norm), (self.x_norm - 1, self.y_norm)]):
+        for new_x_norm, new_y_norm in [(self.x_norm, self.y_norm + 1), (self.x_norm, self.y_norm - 1), (self.x_norm + 1,
+                                                                        self.y_norm), (self.x_norm - 1, self.y_norm)]:
             yield new_x_norm, new_y_norm
 
     def update_list_dames(self):
-        self.list_dames = []
+        self.list_dames.clear()
         for new_x_norm, new_y_norm in self.coordinates_generator():
-            new_x_trans, new_y_trans = self.matrix_coordinates.get_transformed_coord_norm((new_x_norm, new_y_norm))
+            (new_x_trans, new_y_trans) = self.matrix_coordinates.get_transformed_coord_norm((new_x_norm, new_y_norm))
             if self.validate.validate_gamer_zone(new_x_trans, new_y_trans):
                 if self.validate.validate_free_place(self.normalize_coord_stones_dict, new_x_norm, new_y_norm):
                     self.list_dames.append((new_x_norm, new_y_norm))
 
     def check_neighbor_stone_and_coordinates(self):
-        self.neighbor_stones = []
-        self.neighbor_coordinates = []
+        self.neighbor_stones.clear()
+        self.neighbor_coordinates.clear()
+        self.enemy_coordinates.clear()
         for new_x_norm, new_y_norm in self.coordinates_generator():
-            new_x_trans, new_y_trans = self.matrix_coordinates.get_transformed_coord_norm((new_x_norm, new_y_norm))
+            (new_x_trans, new_y_trans) = self.matrix_coordinates.get_transformed_coord_norm((new_x_norm, new_y_norm))
             if self.validate.validate_gamer_zone(new_x_trans, new_y_trans):
                 if not self.validate.validate_free_place(self.normalize_coord_stones_dict, new_x_norm, new_y_norm):
                     if self.normalize_coord_stones_dict[(new_x_norm, new_y_norm)].color == self.color:
                         self.neighbor_stones.append(self.normalize_coord_stones_dict[(new_x_norm, new_y_norm)])
                         self.neighbor_coordinates.append((new_x_norm, new_y_norm))
+                    else:
+                        self.enemy_coordinates.append((new_x_norm, new_y_norm))
 
     def i_am_dead(self):
         if len(self.list_dames) == 0:

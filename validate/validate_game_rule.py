@@ -1,10 +1,12 @@
-import copy
+
 
 from player_color import PlayerColor
 
 
 class ValidateGameRule:
-    def __init__(self, normalize_coord_stones_dict, new_black_groups, new_white_groups, color):
+    def __init__(
+        self, normalize_coord_stones_dict, new_black_groups, new_white_groups, color
+    ):
         self.color_stone = color
         self.normalize_coord_stones_dict = normalize_coord_stones_dict
         self.stone = None
@@ -45,7 +47,7 @@ class ValidateGameRule:
             if n == len(color_group):
                 new_color_groups.remove(color_group)
                 removed_groups.append(color_group)
-                print(color_group, " <--- мертва")
+                # print(color_group, " <--- мертва")
             n = 0
 
         return removed_groups
@@ -54,7 +56,6 @@ class ValidateGameRule:
         if self.color_stone == PlayerColor.BLACK:
             if self.is_new_black_has_died:
                 if self.is_new_white_has_died:
-                    # if self.is_ko_situation():
                     self.VALID_MOVE = True
                 else:
                     self.VALID_MOVE = False
@@ -63,7 +64,6 @@ class ValidateGameRule:
         else:
             if self.is_new_white_has_died:
                 if self.is_new_black_has_died:
-                    # if self.is_ko_situation():
                     self.VALID_MOVE = True
                 else:
                     self.VALID_MOVE = False
