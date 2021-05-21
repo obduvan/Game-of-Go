@@ -6,7 +6,6 @@
 Cоздание игры Game of Go  
 <img src="https://user-images.githubusercontent.com/35761978/113137986-a8a5d500-923e-11eb-93f8-2ce9000d3f4a.png" width="400" height="350" />
 <img src="https://user-images.githubusercontent.com/35761978/113138061-bce9d200-923e-11eb-9023-349b7ef9a45b.png"  width="400" height="350" />
-<img src="https://user-images.githubusercontent.com/35761978/113138085-c410e000-923e-11eb-98e6-afc2f27eee5b.png" width="400" height="350" />
 
 ### В последней версии добавлено:
 * Движок игры полностью стал независим от классов связанных с GUI,   
